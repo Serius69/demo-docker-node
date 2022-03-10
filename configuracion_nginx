@@ -1,0 +1,48 @@
+docker-compose.yaml
+
+ docker images  motrar imagenes
+
+ docker tag 4f19a916b12a node1:1.0     renombrar 
+
+docker-compose up -d   para levantar los dockers 
+
+
+docker exec -it node-backend-tasks-nginx-1 bash  entrar al nginx
+
+cd /etc/nginx/    MOverse al archivo de configuracion del balanceador
+
+cd /etc/nginx/		
+cd conf.d/           Moverse al archivo de configuracion de nginx
+
+apt-get update
+apt-get install vim     Instalacion del vim
+
+vim default.conf
+
+
+
+******dentro del vim**********
+
+*apretar i
+
+upstream ucb_hosts {
+    server hello-1:80;
+    server hello-2:80;
+} 
+
+*****encima de servers****
+
+location /backend {
+        rewrite /backend(.*) $1 break;
+        proxy_pass http://ucb_hosts;
+        proxy_set_header Host $host;
+    }
+
+al final 
+
+:wq
+
+docker restart node-backend-tasks-nginx-1
+
+
+http://127.0.0.1:7777/backend/hello?name=ye  
